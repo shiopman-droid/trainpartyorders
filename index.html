@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Train Party Ordering</title>
+<title>Sukumar-Trifan Dinner Ordering</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -574,7 +574,7 @@ onValue(ordersRef, (snapshot) => {
 <body>
 
 <nav>
-  <div class="logo">Train Party <span>Ordering</span> 🚂</div>
+  <div class="logo">Sukumar-Trifan <span>Dinner</span> 🚂</div>
   <div class="nav-right">
     <span class="table-badge" id="tableIndicator" style="display:none"></span>
     <button class="btn-nav" id="btnGuest" onclick="showGuest()">🪑 Guest View</button>
@@ -592,13 +592,13 @@ onValue(ordersRef, (snapshot) => {
     </div>
     <button id="checkoutBtn" onclick="goCheckout()">🚂 Proceed to Checkout (<span id="cartCount">0</span> items)</button>
     <div class="cat-tabs">
-      <button class="cat-tab active" onclick="switchCat('food', this)">🍿 Snacks & Fruit</button>
+      <button class="cat-tab active" onclick="switchCat('food', this)">🍽️ Food</button>
       <button class="cat-tab" onclick="switchCat('drinks', this)">🥂 Drinks</button>
-      <button class="cat-tab" onclick="switchCat('desserts', this)">🍪 Desserts</button>
+      <button class="cat-tab" onclick="switchCat('other', this)">✨ Other</button>
     </div>
     <div id="section-food" class="menu-section active"></div>
     <div id="section-drinks" class="menu-section"></div>
-    <div id="section-desserts" class="menu-section"></div>
+    <div id="section-other" class="menu-section"></div>
   </div>
 </div>
 
@@ -733,13 +733,13 @@ onValue(ordersRef, (snapshot) => {
       </div>
     </div>
     <div class="admin-cat-tabs">
-      <button class="admin-cat-tab active" onclick="switchAdminCat('food',this)">🍿 Snacks & Fruit</button>
+      <button class="admin-cat-tab active" onclick="switchAdminCat('food',this)">🍽️ Food</button>
       <button class="admin-cat-tab" onclick="switchAdminCat('drinks',this)">🥂 Drinks</button>
-      <button class="admin-cat-tab" onclick="switchAdminCat('desserts',this)">🍪 Desserts</button>
+      <button class="admin-cat-tab" onclick="switchAdminCat('other',this)">✨ Other</button>
     </div>
     <div id="admin-section-food" class="admin-section active"></div>
     <div id="admin-section-drinks" class="admin-section"></div>
-    <div id="admin-section-desserts" class="admin-section"></div>
+    <div id="admin-section-other" class="admin-section"></div>
   </div>
   <div class="admin-save-bar">
     <span id="adminSaveStatus">Unsaved changes will be lost on refresh</span>
@@ -754,41 +754,28 @@ const ALLERGEN_LIST = ['gluten','dairy','egg','nuts','fish','soya','sulphites','
 
 let MENU = {
   food: [
-    { id:'f1', name:'Teriyaki Seaweed', emoji:'🌿', desc:'Light and crispy seaweed snack with a savoury teriyaki flavour.', allergens:['soya'], tags:['vg','gf'] },
-    { id:'f2', name:'Cheese Puffs', emoji:'🧀', desc:'Airy, crunchy cheese puffs — a classic party snack.', allergens:['dairy','gluten'], tags:['vg'] },
-    { id:'f3', name:'Strawberry Yoggies', emoji:'🍓', desc:'Bite-sized strawberry yogurt-covered snacks, sweet and fruity.', allergens:['dairy'], tags:['vg'] },
-    { id:'f4', name:'Honey Cinnamon Crackers', emoji:'🍯', desc:'Lightly sweet crackers with a warm honey and cinnamon flavour.', allergens:['gluten'], tags:['vg'] },
-    { id:'f5', name:'BelVita Crackers', emoji:'🫘', desc:'Wholesome baked biscuit crackers, perfect for snacking.', allergens:['gluten','soya'], tags:['vg'] },
-    { id:'f6', name:"Oats N' Honey Granola Bar", emoji:'🌾', desc:'Chewy granola bar made with whole oats and sweet honey.', allergens:['gluten','nuts'], tags:['vg'] },
-    { id:'f7', name:'Trail Mix', emoji:'🥜', desc:'A hearty mix of nuts, dried fruit and seeds. Contains peanuts.', allergens:['nuts'], tags:['vg','gf'] },
-    { id:'f8', name:'Chocolate Bites', emoji:'🍫', desc:'Small pieces of rich chocolate — the perfect sweet treat.', allergens:['dairy','gluten'], tags:['vg'] },
-    { id:'f9', name:'Fuji Apple Slices', emoji:'🍎', desc:'Fresh crisp Fuji apple, pre-sliced and ready to eat.', allergens:[], tags:['vg','gf'] },
-    { id:'f10', name:'Diced Mango', emoji:'🥭', desc:'Sweet ripe mango, freshly diced and served chilled.', allergens:[], tags:['vg','gf'] },
-    { id:'f11', name:'Blueberries', emoji:'🫐', desc:'Fresh plump blueberries, a naturally sweet and healthy snack.', allergens:[], tags:['vg','gf'] },
+    { id:'f1', name:'Fresh Fruit (Strawberry & Blueberry)', emoji:'🍓', desc:'A fresh mix of ripe strawberries and plump blueberries.', allergens:[], tags:['vg','gf'] },
+    { id:'f2', name:'Cheese on a Stick', emoji:'🧀', desc:'Bite-sized cheese cubes on a stick, ready to snack on.', allergens:['dairy'], tags:['vg','gf'] },
+    { id:'f3', name:'Crackers', emoji:'🫙', desc:'Classic crispy crackers, perfect on their own or with cheese.', allergens:['gluten'], tags:['vg'] },
+    { id:'f4', name:'Brownies', emoji:'🍫', desc:'Rich, fudgy chocolate brownies baked fresh.', allergens:['gluten','dairy','egg'], tags:['vg'] },
+    { id:'f5', name:'Fresh Trail Mix', emoji:'🥜', desc:'A wholesome mix of nuts, seeds and dried fruit. Contains peanuts.', allergens:['nuts'], tags:['vg','gf'] },
   ],
   drinks: [
-    { id:'d1', name:'Sparkling Lemonade', emoji:'🍋', desc:'Crisp and bubbly lemonade with a refreshing citrus fizz.', allergens:[], tags:['vg','gf'] },
-    { id:'d2', name:'Mango Juice', emoji:'🥭', desc:'Sweet and tropical pressed mango juice, served chilled.', allergens:[], tags:['vg','gf'] },
-    { id:'d3', name:'Sparkling Lychee Juice', emoji:'🫧', desc:'Delicately sweet lychee juice with a light sparkling finish.', allergens:[], tags:['vg','gf'] },
-    { id:'d4', name:'Root Beer', emoji:'🍺', desc:'Classic creamy root beer, ice cold and full of flavour.', allergens:[], tags:['vg','gf'] },
-    { id:'d5', name:'Pineapple Juice', emoji:'🍍', desc:'Fresh and tangy pineapple juice, chilled and ready to enjoy.', allergens:[], tags:['vg','gf'] },
-    { id:'d6', name:'Diet Coke (Large)', emoji:'🥤', desc:'Ice cold Diet Coke in a large cup.', allergens:[], tags:['vg','gf'] },
-    { id:'d7', name:'Diet Coke (Small)', emoji:'🥤', desc:'Ice cold Diet Coke in a small cup.', allergens:[], tags:['vg','gf'] },
-    { id:'d8', name:'Beach Plum La Croix', emoji:'💜', desc:'Sparkling water with a light, wild beach plum flavour. Zero calories.', allergens:[], tags:['vg','gf'] },
-    { id:'d9', name:'Black Raspberry La Croix', emoji:'🫐', desc:'Sparkling water with a natural black raspberry hint. Zero calories.', allergens:[], tags:['vg','gf'] },
-    { id:'d10', name:'Guava São Paulo La Croix', emoji:'🌺', desc:'Sparkling water with a tropical guava São Paulo twist. Zero calories.', allergens:[], tags:['vg','gf'] },
-    { id:'d11', name:'Coca-Cola', emoji:'🍾', desc:'The classic Coca-Cola, served ice cold.', allergens:[], tags:['vg','gf'] },
-    { id:'d12', name:'Coconut Water', emoji:'🥥', desc:'Natural coconut water, lightly sweet and wonderfully hydrating.', allergens:[], tags:['vg','gf'] },
-    { id:'d13', name:'Chocolate Milk', emoji:'🍫', desc:'Rich and creamy chocolate milk, a party favourite.', allergens:['dairy'], tags:[] },
-    { id:'d14', name:'Milk', emoji:'🥛', desc:'Fresh cold whole milk.', allergens:['dairy'], tags:[] },
-    { id:'d15', name:'Fruit Punch Juice', emoji:'🍹', desc:'A vibrant blend of tropical fruit flavours in every sip.', allergens:[], tags:['vg','gf'] },
-    { id:'d16', name:'Orange Fanta', emoji:'🍊', desc:'Fizzy, fruity orange Fanta served ice cold.', allergens:[], tags:['vg','gf'] },
-    { id:'d17', name:'Water', emoji:'💧', desc:'Still water, 500ml bottle.', allergens:[], tags:['vg','gf'] },
+    { id:'d1', name:'La Croix Peach-Pear', emoji:'🍑', desc:'Sparkling water with a delicate peach and pear flavour. Zero calories.', allergens:[], tags:['vg','gf'] },
+    { id:'d2', name:'La Croix Strawberry-Peach', emoji:'🍓', desc:'Sparkling water with a light strawberry and peach hint. Zero calories.', allergens:[], tags:['vg','gf'] },
+    { id:'d3', name:'Waterloo Nectarine', emoji:'🍊', desc:'Sparkling water with a natural nectarine flavour. Zero calories.', allergens:[], tags:['vg','gf'] },
+    { id:'d4', name:'Waterloo Black Cherry', emoji:'🍒', desc:'Sparkling water with a bold black cherry twist. Zero calories.', allergens:[], tags:['vg','gf'] },
+    { id:'d5', name:'Milk', emoji:'🥛', desc:'Fresh cold whole milk.', allergens:['dairy'], tags:[] },
+    { id:'d6', name:'Mango Juice', emoji:'🥭', desc:'Sweet and tropical pressed mango juice, served chilled.', allergens:[], tags:['vg','gf'] },
+    { id:'d7', name:'Water', emoji:'💧', desc:'Still water, served cold.', allergens:[], tags:['vg','gf'] },
+    { id:'d8', name:'Iced Water', emoji:'🧊', desc:'Chilled water over ice, refreshing and crisp.', allergens:[], tags:['vg','gf'] },
   ],
-  desserts: [
-    { id:'ds1', name:'Vanilla Meringue', emoji:'🤍', desc:'Light and airy vanilla meringue with a crisp shell and soft centre.', allergens:['egg'], tags:['vg','gf'] },
-    { id:'ds2', name:'Chocolate Chip Cookies', emoji:'🍪', desc:'Classic soft-baked cookies loaded with chocolate chips.', allergens:['gluten','dairy','egg'], tags:['vg'] },
-    { id:'ds3', name:'Marshmallow Rice Crispy', emoji:'🟨', desc:'Sweet and chewy rice crispy treat made with gooey marshmallow.', allergens:['gluten'], tags:['vg'] },
+  other: [
+    { id:'o1', name:'Extra Napkins', emoji:'🧻', desc:'A few extra napkins delivered to you.', allergens:[], tags:[] },
+    { id:'o2', name:'Song Request Form', emoji:'🎵', desc:'Request a song to be played — we will do our best to put it on!', allergens:[], tags:[] },
+    { id:'o3', name:'Extra Spoon', emoji:'🥄', desc:'An extra spoon sent your way.', allergens:[], tags:[] },
+    { id:'o4', name:'Extra Fork', emoji:'🍴', desc:'An extra fork sent your way.', allergens:[], tags:[] },
+    { id:'o5', name:'Requesting Assistance', emoji:'🙋', desc:'Need a hand with something? Let us know and someone will come to you.', allergens:[], tags:[] },
   ],
 };
 
@@ -799,7 +786,7 @@ buildMenu();
 
 /* ── MENU (guest) ── */
 function buildMenu(){
-  ['food','drinks','desserts'].forEach(cat=>{
+  ['food','drinks','other'].forEach(cat=>{
     const sec = document.getElementById('section-'+cat);
     sec.innerHTML = '';
     MENU[cat].forEach(item=>{
@@ -843,7 +830,7 @@ function changeQty(id, delta){
 
 function updateCart(){
   let count=0;
-  const allItems = [...MENU.food,...MENU.drinks,...MENU.desserts];
+  const allItems = [...MENU.food,...MENU.drinks,...MENU.other];
   allItems.forEach(item=>{ if(cart[item.id]) count+=cart[item.id]; });
   const btn = document.getElementById('checkoutBtn');
   if(btn){
@@ -855,7 +842,7 @@ function updateCart(){
 function goMenu(){ buildMenu(); showView('menuView'); }
 
 function goCheckout(){
-  const allItems = [...MENU.food,...MENU.drinks,...MENU.desserts];
+  const allItems = [...MENU.food,...MENU.drinks,...MENU.other];
   let rows='', total=0;
   allItems.forEach(item=>{
     if(cart[item.id]){
@@ -868,7 +855,7 @@ function goCheckout(){
 
 function placeOrder(){
   const note = document.getElementById('specialNote').value;
-  const allItems=[...MENU.food,...MENU.drinks,...MENU.desserts];
+  const allItems=[...MENU.food,...MENU.drinks,...MENU.other];
   const items=allItems.filter(i=>cart[i.id]).map(i=>({id:i.id,name:i.name,emoji:i.emoji,qty:cart[i.id]}));
   const order = { items, note, status:'new', time: Date.now() };
   const newRef = window._fbPush(window._fbRef(window._fbDb, 'orders'), order);
@@ -980,7 +967,7 @@ function switchAdminCat(cat, el){
 }
 
 function buildAdminMenu(){
-  ['food','drinks','desserts'].forEach(cat=>{
+  ['food','drinks','other'].forEach(cat=>{
     renderAdminSection(cat);
   });
 }
